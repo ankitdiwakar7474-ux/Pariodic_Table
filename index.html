@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ankit Diwakar ElementX — Interactive Periodic Table</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">⚛</span>
+    <span class="brand-name">ElementX</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-view="table">Periodic Table</button>
+    <button class="nav-tab" data-view="groups">Group View</button>
+    <button class="nav-tab" data-view="balancer">Equation Balancer</button>
+    <button class="nav-tab" data-view="quiz">Quiz</button>
+    <button class="nav-tab" data-view="compare">Compare</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-download" id="downloadBtn" title="Download element data as JSON">⬇ JSON</button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">◐</button>
+  </div>
+</nav>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<main class="main-content">
+
+  <!-- ── VIEW: PERIODIC TABLE ── -->
+  <section class="view active" id="view-table">
+
+    <!-- Search & Filter Bar -->
+    <div class="controls-bar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search by name, symbol, or atomic number…" autocomplete="off" />
+        <button class="clear-search" id="clearSearch">✕</button>
+      </div>
+      <div class="filter-wrap">
+        <select id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="alkali-metal">Alkali Metals</option>
+          <option value="alkaline-earth">Alkaline Earth Metals</option>
+          <option value="transition-metal">Transition Metals</option>
+          <option value="post-transition">Post-Transition Metals</option>
+          <option value="metalloid">Metalloids</option>
+          <option value="nonmetal">Nonmetals</option>
+          <option value="halogen">Halogens</option>
+          <option value="noble-gas">Noble Gases</option>
+          <option value="lanthanide">Lanthanides</option>
+          <option value="actinide">Actinides</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item"><span class="dot alkali-metal"></span>Alkali Metals</div>
+      <div class="legend-item"><span class="dot alkaline-earth"></span>Alkaline Earth</div>
+      <div class="legend-item"><span class="dot transition-metal"></span>Transition Metals</div>
+      <div class="legend-item"><span class="dot post-transition"></span>Post-Transition</div>
+      <div class="legend-item"><span class="dot metalloid"></span>Metalloids</div>
+      <div class="legend-item"><span class="dot nonmetal"></span>Nonmetals</div>
+      <div class="legend-item"><span class="dot halogen"></span>Halogens</div>
+      <div class="legend-item"><span class="dot noble-gas"></span>Noble Gases</div>
+      <div class="legend-item"><span class="dot lanthanide"></span>Lanthanides</div>
+      <div class="legend-item"><span class="dot actinide"></span>Actinides</div>
+    </div>
+
+    <!-- The Table Grid -->
+    <div class="table-wrapper">
+      <div class="periodic-table" id="periodicTable"></div>
+    </div>
+
+  </section>
+
+  <!-- ── VIEW: GROUP VIEW ── -->
+  <section class="view" id="view-groups">
+    <div class="section-header">
+      <h2>Elements by Group</h2>
+      <p>Select a group (1–18) to explore common properties and reactivity trends.</p>
+    </div>
+    <div class="group-selector">
+      <div class="group-tabs" id="groupTabs"></div>
+    </div>
+    <div class="group-content" id="groupContent"></div>
+  </section>
+
+  <!-- ── VIEW: EQUATION BALANCER ── -->
+  <section class="view" id="view-balancer">
+    <div class="section-header">
+      <h2>Chemical Equation Balancer</h2>
+      <p>Enter an unbalanced equation (e.g. <code>H2 + O2 → H2O</code>) and get the balanced result.</p>
+    </div>
+    <div class="balancer-card">
+      <div class="balancer-input-row">
+        <input type="text" id="equationInput" placeholder="e.g. Fe + O2 → Fe2O3" />
+        <button id="balanceBtn" class="btn-primary">Balance ⚗</button>
+      </div>
+      <div class="balancer-examples">
+        <span>Try:</span>
+        <button class="example-eq" data-eq="H2 + O2 → H2O">H₂+O₂→H₂O</button>
+        <button class="example-eq" data-eq="Fe + O2 → Fe2O3">Fe+O₂→Fe₂O₃</button>
+        <button class="example-eq" data-eq="CH4 + O2 → CO2 + H2O">CH₄+O₂→CO₂+H₂O</button>
+        <button class="example-eq" data-eq="Na + H2O → NaOH + H2">Na+H₂O→NaOH+H₂</button>
+        <button class="example-eq" data-eq="Al + HCl → AlCl3 + H2">Al+HCl→AlCl₃+H₂</button>
+      </div>
+      <div class="balancer-result" id="balancerResult"></div>
+    </div>
+  </section>
+
+  <!-- ── VIEW: QUIZ ── -->
+  <section class="view" id="view-quiz">
+    <div class="section-header">
+      <h2>Chemistry Quiz</h2>
+      <p>Test your knowledge of the periodic table!</p>
+    </div>
+    <div class="quiz-card" id="quizCard">
+      <div id="quizContent"></div>
+    </div>
+  </section>
+
+  <!-- ── VIEW: COMPARE ── -->
+  <section class="view" id="view-compare">
+    <div class="section-header">
+      <h2>Element Comparison</h2>
+      <p>Select two elements to compare their properties side by side.</p>
+    </div>
+    <div class="compare-selectors">
+      <select id="compareA" class="compare-select"><option value="">— Select Element A —</option></select>
+      <span class="vs-badge">VS</span>
+      <select id="compareB" class="compare-select"><option value="">— Select Element B —</option></select>
+    </div>
+    <div class="compare-result" id="compareResult"></div>
+  </section>
+
+</main>
+
+<!-- ═══════════════ ELEMENT MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="elementModal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-inner" id="modalInner"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ TOAST ═══════════════ -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
